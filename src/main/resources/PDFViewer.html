@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <script src="https://www.jsdelivr.com/package/npm/pdfjs-dist"></script>
+</head>
+<body>
+    <canvas id="pdfCanvas"></canvas>
+    <script>
+        var pdfPath = "path_to_pdf_file.pdf";
+        var scale = 1.5;
+
+        var pdfCanvas = document.getElementById('pdfCanvas');
+        var context = pdfCanvas.getContext('2d');
+
+        // Load PDF
+        pdfjsLib.getDocument(pdfPath).promise.then(function(pdf) {
+            pdf.getPage(1).then(function(page) {
+                var viewport = page.getViewport({scale: scale});
+                pdfCanvas.height = viewport.height;
+                pdfCanvas.width = viewport.width;
+
+                page.render({canvasContext: context, viewport: viewport});
+            });
+        });
+    </script>
+</body>
+</html>
